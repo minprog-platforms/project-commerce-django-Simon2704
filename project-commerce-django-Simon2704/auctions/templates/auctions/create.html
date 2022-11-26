@@ -1,0 +1,78 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2>Create</h2>
+
+			<div class="content create col-md-8 offset-md-2">
+				<div class="row">
+			    	<div class="col">
+			    		<h1 class="text-center">List an Item</h1>
+			    	</div>
+        </div>
+
+
+                {% if message %}
+				<div class="row">
+					<div class="card border-danger col-md-10 offset-md-1">
+						<div class="card-body text-danger">
+				    		<p class="card-text">{{ message|safe }}</p>
+			  		</div>
+					</div>
+				</div>
+				{% endif %}
+				{% if success %}
+				<div class="row">
+					<div class="card border-success col-md-10 offset-md-1">
+						<div class="card-body text-danger">
+				    		<p class="card-text">{{ success|safe }}</p>
+				  		</div>
+					</div>
+				</div>
+				{% endif %}
+
+            <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+
+          <!-- De titel van het product -->
+					<div class="form-group">
+						<label for="title"> Title</label>
+				    	<input type="text" class="form-control" id="title" name="title" Placeholder="Item">
+					</div>
+
+          <!-- de omschrijving kun hier worden ingevuld -->
+					<div class="form-group">
+						<label for="description"> Description</label>
+				    	<textarea class="form-control" name="description" required></textarea>
+					</div>
+
+          <!-- keuze uit de Category -->
+          <div class="form-group">
+          			    		<label for="category">Category</label>
+          				    	<select class="form-control custom-select" id="category" name="category">
+          						      <option value="">--SELECT--</option>
+          						      {% for category in categories %}
+          						      <option value="{{category.category}}">{{category.category}}</option>
+          						      {% endfor %}
+
+            <!-- Begin prijs  -->
+				  	<div class="form-group">
+				  		<label for="price">Your bid</label>
+            </div>
+						<div class="input-group mb-3">
+				  			<div class="input-group-prepend">
+				    			<span class="input-group-text" id="euro">€</span>
+				  			</div>
+				  			<input type="text" class="form-control" id="euro" name="price" Placeholder="Insert amount">
+						</div>
+
+            <!-- Toevoegen foto (via URL) -->
+            <label for="image">Add image of item (URL link):</label>
+            <input type="url" id="image" name="imageurl">
+
+            <!-- Submit -->
+					<button type="submit" class="btn btn-info btn-block" id="submit" value="submit" align="center">Create</button>
+
+
+
+{% endblock %}
